@@ -7,12 +7,20 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final pb = await initPB();
-  if (pb != null) {
-    final result = await Process.run(pb.path, ['--version']);
-    debugPrint('Execution Result: ${result.stdout}');
-  }
+  await runPB();
   runApp(const MainApp());
+}
+
+Future<void> runPB() async {
+  try {
+    final pb = await initPB();
+    if (pb != null) {
+      final result = await Process.run(pb.path, ['--version']);
+      debugPrint('Execution Result: ${result.stdout}');
+    }
+  } catch (e) {
+    debugPrint('PB Execution Error: $e');
+  }
 }
 
 Future<File?> initPB() async {
