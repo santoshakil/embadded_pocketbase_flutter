@@ -27,8 +27,8 @@ Future<File?> initPB() async {
   try {
     final dir = join((await getApplicationDocumentsDirectory()).path, 'pocketbase');
     final pbFile = File(join(dir, 'pocketbase'));
-    // pbFile.deleteSync();
-    if (pbFile.existsSync()) return pbFile;
+    // if (pbFile.existsSync()) return pbFile;
+    if (pbFile.existsSync()) await pbFile.delete(); // for testing
     final pbAsset = await rootBundle.load('assets/pocketbase');
     await pbFile.create(recursive: true);
     await pbFile.writeAsBytes(pbAsset.buffer.asUint8List());
